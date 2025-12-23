@@ -30,6 +30,16 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
+    chunkSizeWarningLimit: 1000, // ✅ Increase warning limit to 1 MB
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes("node_modules")) {
+            return "vendor"; // ✅ Split vendor modules into a separate chunk
+          }
+        },
+      },
+    },
   },
   server: {
     fs: {
